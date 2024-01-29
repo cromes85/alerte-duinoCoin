@@ -1,10 +1,12 @@
+<!-- index_new.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Duco Price Monitor</title>
+    <title>Duco Price Monitor (Nouvelle App)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,13 +18,19 @@
             font-size: 24px;
             margin-bottom: 10px;
         }
+
+        #refreshButton {
+            display: none; /* Masquer le bouton par défaut */
+        }
     </style>
 </head>
 
 <body>
-    <h1>Duco Price Monitor</h1>
+    <h1>Duco Price Monitor (Nouvelle App)</h1>
     <div id="price"></div>
-    <button onclick="fetchAndDisplayPrice()">Actualiser le prix</button>
+
+    <!-- Bouton pour actualiser le prix -->
+    <button id="refreshButton" onclick="fetchAndDisplayPrice()">Actualiser le prix</button>
 
     <script>
         function fetchAndDisplayPrice() {
@@ -34,7 +42,6 @@
 
                     // Display the Duco price on the page
                     document.getElementById('price').innerText = `Duco Price: ${ducoPrice.toFixed(8)}`;
-
 
                     if (ducoPrice >= 0.00022452 * 10) {
                         // Play an alert sound
@@ -55,9 +62,16 @@
         // Update the price every 5 seconds
         setInterval(fetchAndDisplayPrice, 5000);
 
+        // Update the price every 10 seconds
         setInterval(() => {
             location.reload();
         }, 10000);
+
+        // Vérifier l'accès avant de montrer le bouton
+        const isAuthorizedUser = true; // Remplacez cela par votre mécanisme d'identification
+        if (isAuthorizedUser) {
+            document.getElementById('refreshButton').style.display = 'block';
+        }
     </script>
 </body>
 
