@@ -19,10 +19,7 @@
             margin-bottom: 10px;
         }
 
-        #refreshButton {
-            display: none; /* Masquer le bouton par défaut */
-        }
-    </style>
+            </style>
 </head>
 
 <body>
@@ -67,11 +64,7 @@
             location.reload();
         }, 10000);
 
-        // Vérifier l'accès avant de montrer le bouton
-        const isAuthorizedUser = true; // Remplacez cela par votre mécanisme d'identification
-        if (isAuthorizedUser) {
-            document.getElementById('refreshButton').style.display = 'block';
-        }
+       
     </script>
 </body>
 
