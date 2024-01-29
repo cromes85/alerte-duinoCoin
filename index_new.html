@@ -52,27 +52,40 @@
                 });
         }
 
+        // Function to save the Duco price to local storage as JSON
+        function savePriceToLocalStorage(price) {
+            // Get existing data from local storage or initialize an empty array
+            const existingData = JSON.parse(localStorage.getItem('ducoPrices')) || [];
+
+            // Add the new price to the array
+            existingData.push({ timestamp: new Date().toISOString(), price: price });
+
+            // Save the updated array back to local storage
+            localStorage.setItem('ducoPrices', JSON.stringify(existingData));
+        }
+
+        // Function to save the Duco price to the server
         function savePriceToServer(price) {
-        // Envoyer le prix au backend pour enregistrement
-        fetch('http://localhost:3000/api/save-price', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ price: price }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Prix enregistré avec succès sur le serveur.');
-                } else {
-                    console.error('Échec de l\'enregistrement du prix sur le serveur.');
-                }
+            // Send the price to the backend for recording
+            fetch('http://localhost:3000/api/save-price', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ price: price }),
             })
-            .catch(error => {
-                console.error('Erreur lors de l\'enregistrement du prix sur le serveur:', error);
-            });
-    }
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Price successfully saved to the server.');
+                    } else {
+                        console.error('Failed to save the price to the server.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving the price to the server:', error);
+                });
+        }
 
         // Fetch and display the price initially
         fetchAndDisplayPrice();
