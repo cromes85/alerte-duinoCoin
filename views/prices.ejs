@@ -1,0 +1,21 @@
+<!-- views/prices.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duco Price History</title>
+</head>
+
+<body>
+    <h1>Duco Price History</h1>
+    <ul>
+        <% prices.forEach(entry => { %>
+            <li><%= entry.timestamp %> - <%= entry.price.toFixed(8) %></li>
+        <% }); %>
+    </ul>
+</body>
+
+</html>

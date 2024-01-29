@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.post('/api/save-price', (req, res) => {
     const ducoPrice = req.body.price;
@@ -35,6 +38,20 @@ app.post('/api/save-price', (req, res) => {
     }
 
     res.json({ success: true });
+});
+
+app.get('/prices', (req, res) => {
+    // Charger les données existantes du fichier JSON
+    let existingData = [];
+    try {
+        const jsonData = fs.readFileSync('ducoPrices.json', 'utf-8');
+        existingData = JSON.parse(jsonData);
+    } catch (error) {
+        console.error('Error reading existing data:', error);
+    }
+
+    // Rendre la page avec les données
+    res.render('prices', { prices: existingData });
 });
 
 app.listen(port, () => {
