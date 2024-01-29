@@ -18,16 +18,12 @@
             font-size: 24px;
             margin-bottom: 10px;
         }
-
-            </style>
+    </style>
 </head>
 
 <body>
     <h1>Duco Price Monitor (Nouvelle App)</h1>
     <div id="price"></div>
-
-    <!-- Bouton pour actualiser le prix -->
-    <button id="refreshButton" onclick="fetchAndDisplayPrice()">Actualiser le prix</button>
 
     <script>
         function fetchAndDisplayPrice() {
@@ -39,6 +35,9 @@
 
                     // Display the Duco price on the page
                     document.getElementById('price').innerText = `Duco Price: ${ducoPrice.toFixed(8)}`;
+
+                    // Save the price to local storage as JSON
+                    savePriceToLocalStorage(ducoPrice);
 
                     if (ducoPrice >= 0.00022452 * 10) {
                         // Play an alert sound
@@ -53,6 +52,28 @@
                 });
         }
 
+        function savePriceToServer(price) {
+        // Envoyer le prix au backend pour enregistrement
+        fetch('http://localhost:3000/api/save-price', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ price: price }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Prix enregistré avec succès sur le serveur.');
+                } else {
+                    console.error('Échec de l\'enregistrement du prix sur le serveur.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'enregistrement du prix sur le serveur:', error);
+            });
+    }
+
         // Fetch and display the price initially
         fetchAndDisplayPrice();
 
@@ -63,8 +84,6 @@
         setInterval(() => {
             location.reload();
         }, 10000);
-
-       
     </script>
 </body>
 
